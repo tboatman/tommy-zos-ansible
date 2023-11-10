@@ -13,7 +13,6 @@
   vars:
     tgt_tmp_dir: "/tmp"
     job_name: "HELLO"
-  environment: "{{ environment_vars }}"
 
   tasks:
     - name: Copy a local file to a PDS member and convert encoding
@@ -22,7 +21,7 @@
         dest: "/u/tommy/hello.jcl"
         force: True
         encoding:
-          from: UTF-8
+          from: ISO8859-1
           to: IBM-1047
 
     - name: Submit JCL

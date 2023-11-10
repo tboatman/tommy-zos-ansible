@@ -1,7 +1,4 @@
-# the path to the root of IBM python installation
 PYZ: "/usr/lpp/IBM/cyp/v3r10/pyz"
-
-# the path to root of ZOAU installation
 ZOAU: "/usr/lpp/IBM/zoautil"
 
 # you should not need to change environment_vars
@@ -16,4 +13,4 @@ environment_vars:
   _TAG_REDIR_IN: "txt"
   _TAG_REDIR_OUT: "txt"
   LANG: "C"
-  PYTHONSTDINENCODING: "cp1037"
+  PYTHONSTDINENCODING: "cp1047"
