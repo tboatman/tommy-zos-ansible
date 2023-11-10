@@ -1,0 +1,7 @@
+all:
+  hosts:
+    zdt:
+      ansible_host: 192.168.10.47
+      ansible_user: tommy
+      ansible_python_interpreter: /usr/lpp/IBM/cyp/v3r9/pyz/bin/python3
+      environment: "{{ environment_vars }}"

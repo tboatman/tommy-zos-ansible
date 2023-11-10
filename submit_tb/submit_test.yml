@@ -1,0 +1,30 @@
+###############################################################################
+# © Copyright IBM Corporation 2020
+# Usage:
+#  ansible-playbook -i <inventory> <playbook>
+#
+# Example:
+#  ansible-playbook -i inventory submit_query_output_by_id.yaml
+###############################################################################
+
+---
+- hosts: all
+  gather_facts: false
+  environment: "{{ environment_vars }}"
+
+  tasks:
+    - name: Submit JCL
+      ibm.ibm_zos_core.zos_job_submit:
+#       src: "{{playbook_dir}}/files/HELLO.jcl"
+#       location: LOCAL
+        src: TOMMY.JCL.CNTL(HELLO)
+        location: DATA_SET
+        encoding:
+          from: ISO8859-1
+          to: IBM-037
+      register: response
+
+    - name: Set Facts
+      set_fact:
+        sub_job_id: "{{ response.jobs[0].job_id }}"
+        sub_job_name: "{{ response.jobs[0].job_name }}"
