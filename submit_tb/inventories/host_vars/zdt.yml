@@ -1,5 +1,5 @@
 # the path to the root of IBM python installation
-PYZ: "/usr/lpp/IBM/cyp/v3r9/pyz"
+PYZ: "/usr/lpp/IBM/cyp/v3r10/pyz"
 
 # the path to root of ZOAU installation
 ZOAU: "/usr/lpp/IBM/zoautil"

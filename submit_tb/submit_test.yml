@@ -10,21 +10,29 @@
 ---
 - hosts: all
   gather_facts: false
+  vars:
+    tgt_tmp_dir: "/tmp"
+    job_name: "HELLO"
   environment: "{{ environment_vars }}"
 
   tasks:
+    - name: Copy a local file to a PDS member and convert encoding
+      ibm.ibm_zos_core.zos_copy:
+        src: "{{playbook_dir}}/files/HELLO.jcl"
+        dest: "/u/tommy/hello.jcl"
+        force: True
+        encoding:
+          from: UTF-8
+          to: IBM-1047
+
     - name: Submit JCL
       ibm.ibm_zos_core.zos_job_submit:
-#       src: "{{playbook_dir}}/files/HELLO.jcl"
-#       location: LOCAL
-        src: TOMMY.JCL.CNTL(HELLO)
-        location: DATA_SET
-        encoding:
-          from: ISO8859-1
-          to: IBM-037
-      register: response
+        src: "/u/tommy/hello.jcl"
+        location: USS
+#       src: TOMMY.JCL.CNTL(HELLO)
+#       location: DATA_SET
+#       encoding:
+#         from: UTF-8
+#         to: ISO-8859-1
+      register: result
 
-    - name: Set Facts
-      set_fact:
-        sub_job_id: "{{ response.jobs[0].job_id }}"
-        sub_job_name: "{{ response.jobs[0].job_name }}"
