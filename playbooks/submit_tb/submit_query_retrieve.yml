@@ -31,7 +31,8 @@
 ###############################################################################
 
 ---
-- hosts: all
+- name: Basic information
+  hosts: all
   collections:
     - ibm.ibm_zos_core
   gather_facts: false
@@ -121,13 +122,13 @@
       debug:
         msg: "{{ result }}"
 
-    - name: Submit the JCL {{ data_set_name }}(MEM1)
+    - name: Submit the JCL {{ data_set_name }}
       zos_job_submit:
         src: "{{ data_set_name }}(MEM1)"
         location: DATA_SET
       register: result
 
-    - name: Response for submit the JCL {{ data_set_name }}.(MEM1)
+    - name: Response for submit the JCL {{ data_set_name }}
       debug:
         msg: "{{ result }}"
 
