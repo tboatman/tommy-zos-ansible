@@ -1,16 +1,6 @@
 PYZ: "/usr/lpp/IBM/cyp/v3r9/pyz"
 ZOAU: "/usr/lpp/IBM/zoautil"
-
-# you should not need to change environment_vars
-environment_vars:
-  _BPXK_AUTOCVT: "ON"
-  ZOAU_HOME: "{{ ZOAU }}"
-  PYTHONPATH: "{{ ZOAU }}/lib"
-  LIBPATH: "{{ ZOAU }}/lib:{{ PYZ }}/lib:/lib:/usr/lib:."
-  PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin:/var/bin"
-  _CEE_RUNOPTS: "FILETAG(AUTOCVT,AUTOTAG) POSIX(ON)"
-  _TAG_REDIR_ERR: "txt"
-  _TAG_REDIR_IN: "txt"
-  _TAG_REDIR_OUT: "txt"
-  LANG: "C"
-  PYTHONSTDINENCODING: "cp1047"
+ansible_user: tommy
+ansible_host: zdt
+ansible_python_interpreter: "{{ PYZ }}/bin/python3"
+environment: "{{ environment_vars }}"
