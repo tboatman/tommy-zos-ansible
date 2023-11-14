@@ -16,8 +16,8 @@
         src: "{{ playbook_dir }}/files/HELLO.jcl"
         location: LOCAL
         encoding:
-          from: UTF-8
-          to: IBM-1047
+          from: ISO8859-1
+          to: IBM-037
       register: result
 
     - name: Response for submit the JCL 
