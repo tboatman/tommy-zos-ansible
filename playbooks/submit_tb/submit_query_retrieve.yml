@@ -124,6 +124,7 @@
       ibm.ibm_zos_core.zos_job_submit:
         src: "{{ data_set_name }}(MEM1)"
         location: DATA_SET
+        wait_time_s: 30
       register: result
 
     - name: Response for submit the JCL {{ data_set_name }}

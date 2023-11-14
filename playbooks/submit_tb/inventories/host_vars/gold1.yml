@@ -4,4 +4,5 @@
       ansible_host: 71.27.82.210
       ansible_user: tommy
       ansible_python_interpreter: "{{ PYZ }}/bin/python3"
+#     ansible_remote_tmp: "/tmp"
       environment: "{{ environment_vars }}"
