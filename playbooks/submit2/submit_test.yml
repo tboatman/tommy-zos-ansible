@@ -1,0 +1,53 @@
+---
+- name: Collect the hosts
+  hosts: all
+  collections:
+    - ibm.ibm_zos_core
+  gather_facts: false
+  vars:
+    tgt_tmp_dir: "/tmp"
+    job_name: "HELLO"
+  environment: "{{ environment_vars }}"
+
+  tasks:
+
+    - name: Submit the JCL
+      zos_job_submit:
+        src: "{{ playbook_dir }}/files/HELLO.jcl"
+        location: LOCAL
+        encoding:
+          from: UTF-8
+          to: IBM-1047
+      register: result
+
+    - name: Response for submit the JCL 
+      debug:
+        msg: "{{ result }}"
+
+    - name: Setting fact `job_id_pds` for id of job submitted above
+      set_fact:
+        job_id_pds: "{{ result.jobs[0].job_id }}"
+
+    - name: Fact `job_id_pds` set with value
+      debug:
+        msg: "{{ job_id_pds }}"
+
+    - name: Query submitted job by job_id
+      zos_job_query:
+        job_id: "{{ job_id_pds }}"
+      register: result
+
+    - name: Response for query submitted job by job_id
+      debug:
+        msg: "{{ result }}"
+
+    - name: Get job output for job {{ job_id_pds }}
+      zos_job_output:
+        job_id: "{{ job_id_pds }}"
+      register: result
+
+    - name: Response for get job output for job {{ job_id_pds }}
+        member
+      debug:
+        msg: "{{ result }}"
+        
