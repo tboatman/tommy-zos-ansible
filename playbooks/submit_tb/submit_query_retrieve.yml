@@ -33,13 +33,18 @@
 ---
 - name: Basic information
   hosts: all
-  gather_facts: false
+  gather_facts: true
   vars:
     tgt_tmp_dir: "/tmp"
     job_name: "HELLO"
   environment: "{{ environment_vars }}"
 
   tasks:
+    # Get some facts
+    - name: get facts
+      ibm.ibm_zos_core.zos_gather_facts:
+      register: zos_facts 
+        
     # ##########################################################################
     # Generate a temporary data set name
     # ##########################################################################
