@@ -3,7 +3,7 @@
   hosts: all
   collections:
     - ibm.ibm_zos_core
-  gather_facts: true
+  zos_gather_facts: 
   vars:
     tgt_tmp_dir: "/tmp"
     job_name: "HELLO"
