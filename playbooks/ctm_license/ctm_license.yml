@@ -10,6 +10,8 @@
       zos_job_submit:
         src: TOMMY.JCL.CNTL(CTMKILL)
         location: DATA_SET
+        wait_time_s: 120
+        return_output: false
       register: response
 
     - name: Pause for system to come down
@@ -103,4 +105,6 @@
       zos_job_submit:
         src: TOMMY.JCL.CNTL(CTMGO)
         location: DATA_SET
+        wait_time_s: 120
+        return_output: false
       register: response
