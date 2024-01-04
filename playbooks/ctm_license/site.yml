@@ -20,7 +20,8 @@
 
 
 ---
-- hosts: localhost
+- name: Apply Control-M Licenses
+  hosts: localhost
 
   tasks:
     - name: Parse the registry for collection entries
