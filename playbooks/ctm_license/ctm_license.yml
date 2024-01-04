@@ -1,13 +1,12 @@
 ---
-- hosts: all
-  collections:
-    - ibm.ibm_zos_core
+- name: Install INCONTROL Licenses
+  hosts: all
   gather_facts: false
   environment: "{{ environment_vars }}"
 
   tasks:
     - name: Terminate INCONTROL
-      zos_job_submit:
+      ibm.ibm_zos_core.zos_job_submit:
         src: TOMMY.JCL.CNTL(CTMKILL)
         location: DATA_SET
         wait_time_s: 120
@@ -19,77 +18,77 @@
         minutes: 2
 
     - name: Remove CTB license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASCTB)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTD license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASCTD)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTJ license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASCTJ)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTM license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASCTM)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTO license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASCTO)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTR license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASCTR)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTT license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASCTT)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTV license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASCTV)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTD-IMG license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASDIMG)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
     - name: Remove CTD-POD license
-      zos_data_set:
+      ibm.ibm_zos_core.zos_data_set:
         name: "{{ IOAPREF }}.PARM(PASPOD)"
         state: absent
         type: MEMBER
-        force: yes
+        force: true
 
-    - name: "Copy local directory {{ playbook_dir }}/files to {{ tmp_data_set }}"
-      zos_copy:
+    - name: "Copy local license files to PARMLIB"
+      ibm.ibm_zos_core.zos_copy:
         src: "{{ playbook_dir }}/files"
         dest: "{{ IOAPREF }}.PARM"
         encoding:
@@ -97,12 +96,12 @@
           to: IBM-1047
       register: result_copy_dir
 
-    - name: "Response for copy local directory {{ playbook_dir }}/files to {{ IOAPREF }}.PARM."
-      debug:
+    - name: "Response for copy license files to PARMLIB"
+      ansible.builtin.debug:
         var: result_copy_dir
 
     - name: Restart IOA
-      zos_job_submit:
+      ibm.ibm_zos_core.zos_job_submit:
         src: TOMMY.JCL.CNTL(CTMGO)
         location: DATA_SET
         wait_time_s: 120
