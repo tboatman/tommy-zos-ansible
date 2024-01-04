@@ -1,0 +1,7 @@
+      PYZ: "/usr/lpp/IBM/cyp/v3r9/pyz"
+      ZOAU: "/usr/lpp/IBM/zoautil"
+
+      ansible_host: 54.176.235.62
+      ansible_user: tommy
+      ansible_python_interpreter: "{{ PYZ }}/bin/python3"
+      environment: "{{ environment_vars }}"
