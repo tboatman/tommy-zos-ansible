@@ -31,4 +31,4 @@
         name: requirements-check
 
 - name: Executing the z/OS Ansible playbook
-  import_playbook: submit_test.yml
+  import_playbook: ctm_license.yml

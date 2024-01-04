@@ -1,3 +1,4 @@
 .vscode/settings.json
 playbooks/submit_tb/roles/requirements-check/library/__pycache__/ansible_version.cpython-311.pyc
 playbooks/.DS_Store
+playbooks/ctm_license/roles/requirements-check/library/__pycache__/ansible_version.cpython-312.pyc
