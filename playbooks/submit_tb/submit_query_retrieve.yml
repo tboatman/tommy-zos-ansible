@@ -41,10 +41,10 @@
 
   tasks:
     # Get some facts
-    - name: get facts
+    - name: Get facts
       ibm.ibm_zos_core.zos_gather_facts:
-      register: zos_facts 
-        
+      register: zos_facts
+
     # ##########################################################################
     # Generate a temporary data set name
     # ##########################################################################
@@ -111,7 +111,7 @@
       ansible.builtin.debug:
         msg: "{{ result }}"
 
-    - name: Populate {{ data_set_name }} 
+    - name: Populate {{ data_set_name }}
         in {{ tgt_tmp_dir }}/ansible/jcl
       ibm.ibm_zos_core.zos_copy:
         src: "{{ tgt_tmp_dir }}/ansible/jcl/HELLO"
