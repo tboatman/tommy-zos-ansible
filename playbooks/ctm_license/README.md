@@ -71,4 +71,5 @@ details.
 
 
 #HOW TO RUN
+uncomment systems to run on in inventories/inventory.yml
 ansible-playbook -i inventories/inventory.yml ctm_license.yml
