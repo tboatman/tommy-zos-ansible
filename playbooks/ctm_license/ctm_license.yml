@@ -87,6 +87,10 @@
         type: member
         force: true
 
+    - name: Pause for system to free parmlib
+      ansible.builtin.pause:
+        minutes: 1
+
     - name: "Copy local license files to PARMLIB"
       ibm.ibm_zos_core.zos_copy:
         src: "{{ playbook_dir }}/files"
