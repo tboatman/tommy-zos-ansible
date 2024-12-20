@@ -3,7 +3,6 @@
   hosts: all
   collections:
     - ibm.ibm_zos_core
-  zos_gather_facts: 
   vars:
     tgt_tmp_dir: "/tmp"
     job_name: "HELLO"
@@ -14,7 +13,7 @@
     - name: Submit the JCL
       zos_job_submit:
         src: "{{ playbook_dir }}/files/HELLO.jcl"
-        location: LOCAL
+        location: local
         encoding:
           from: UTF-8
           to: IBM-1047

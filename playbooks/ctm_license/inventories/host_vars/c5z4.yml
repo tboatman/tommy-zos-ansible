@@ -1,4 +1,4 @@
-PYZ: "/usr/lpp/IBM/cyp/v3r9/pyz"
+PYZ: "/usr/lpp/IBM/cyp/v3r10/pyz"
 ZOAU: "/usr/lpp/IBM/zoautil"
 IOAPREF: "IOA921"
 ansible_user: tommy
