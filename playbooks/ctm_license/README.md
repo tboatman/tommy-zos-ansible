@@ -68,3 +68,7 @@ Version 2.0](https://opensource.org/licenses/Apache-2.0).
 # Support
 Please refer to the [support section](../../../README.md#support) for more
 details.
+
+
+#HOW TO RUN
+ansible-playbook -i inventories/inventory.yml ctm_license.yml
