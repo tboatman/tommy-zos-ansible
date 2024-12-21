@@ -68,3 +68,6 @@ Version 2.0](https://opensource.org/licenses/Apache-2.0).
 # Support
 Please refer to the [support section](../../../README.md#support) for more
 details.
+
+
+ansible-playbook -i inventories/inventory.yml submit_test.yml 
