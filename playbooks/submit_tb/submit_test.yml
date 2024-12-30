@@ -12,7 +12,7 @@
 
     - name: Submit the JCL
       zos_job_submit:
-        src: "{{ playbook_dir }}/files/CWLIC.jcl"
+        src: "{{ playbook_dir }}/files/SMFPURGE.jcl"
         location: local
         encoding:
           from: UTF-8
