@@ -1,0 +1,27 @@
+---
+- name: Collect the hosts
+  hosts: all
+  collections:
+    - ibm.ibm_zos_core
+
+  environment: "{{ environment_vars }}"
+
+  tasks:
+
+    - name: Clear SMFDUMPS
+      zos_operator:
+        cmd: "\\$pojq,jm=SMFDUMPS"
+      register: content
+
+    - name: Response for command 
+      debug:
+        msg: "{{ content }}"
+
+    - name: Clear SMFCLEAR
+      zos_operator:
+        cmd: "\\$pojq,jm=SMFCLEAR"
+      register: content
+
+    - name: Response for command 
+      debug:
+        msg: "{{ content }}"
