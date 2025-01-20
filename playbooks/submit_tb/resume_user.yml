@@ -1,0 +1,26 @@
+- hosts: host_z
+  gather_facts: false
+  vars:
+    # zuser es el usuario de mainframe a probar
+    # zuser: ALGUIEN
+  tasks:
+    - name: Trae información sobre usuario {{ zuser }}
+      ibm.ibm_zos_core.zos_tso_command:
+        commands:
+          - LISTUSER {{ zuser }}
+      register: user_description
+      changed_when: false
+
+    - name: Muestra si el user está actualmente bloqueado
+      ansible.builtin.debug:
+        msg: "El usuario {{ zuser }} está bloqueado, desbloqueando en siguiente tarea"
+      when: ('REVOKED' in user_description.output[0].content[2])
+
+    - name: Desbloquea a {{ zuser }}
+      ibm.ibm_zos_core.zos_tso_command:
+        commands:
+          - ALTUSER {{ zuser }} RESUME
+      changed_when: true
+      # Third line includes the word  REVOKED if the user is not active
+      # Has to be line 2 (base 0) because it shows in other lines.
+      when: ('REVOKED' in user_description.output[0].content[2])
