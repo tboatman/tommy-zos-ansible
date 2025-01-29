@@ -25,8 +25,3 @@
     - name: Response for command 
       debug:
         msg: "{{ content }}"
-
-requires_collection:
-    - ibm_zos_core:
-          name: "ibm_zos_core"
-          version: "1.12.0"
