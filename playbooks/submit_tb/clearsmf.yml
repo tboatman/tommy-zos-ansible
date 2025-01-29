@@ -13,6 +13,7 @@
       zos_operator:
         cmd: "\\$pojq,jm=SMFDUMPS"
       register: content
+      ignore_errors: yes
 
     - name: Response for command 
       debug:
@@ -22,6 +23,7 @@
       zos_operator:
         cmd: "\\$pojq,jm=SMFCLEAR"
       register: content
+      ignore_errors: yes
 
     - name: Response for command 
       debug:
