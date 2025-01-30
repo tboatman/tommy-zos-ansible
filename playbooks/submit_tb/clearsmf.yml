@@ -15,9 +15,9 @@
       register: content
 #     ignore_errors: yes
 
-    - name: Response for command 
-      debug:
-        msg: "{{ content }}"
+#    - name: Response for command 
+#      debug:
+#        msg: "{{ content }}"
 
     - name: Clear SMFCLEAR
       zos_operator:
@@ -25,6 +25,6 @@
       register: content
 #     ignore_errors: yes
 
-    - name: Response for command 
-      debug:
-        msg: "{{ content }}"
+#    - name: Response for command 
+#      debug:
+#        msg: "{{ content }}"
