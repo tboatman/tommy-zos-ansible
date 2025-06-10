@@ -23,22 +23,22 @@
         cmd: "\\$pojq,jm=DEFRAG"
       register: content
 
-          - name: Clear CTMTDAY
+    - name: Clear CTMTDAY
       zos_operator:
         cmd: "\\$pojq,jm=CTMTDAY"
       register: content
 
-          - name: Clear C21TDAY
+    - name: Clear C21TDAY
       zos_operator:
         cmd: "\\$pojq,jm=C21TDAY"
       register: content
 
-          - name: Clear MIGDEL
+    - name: Clear MIGDEL
       zos_operator:
         cmd: "\\$pojq,jm=MIGDEL"
       register: content
 
-          - name: Clear TSO Users
+    - name: Clear TSO Users
       zos_operator:
         cmd: "\\$pt1-9999"
       register: content
