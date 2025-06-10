@@ -28,6 +28,16 @@
         cmd: "\\$pojq,jm=CTMTDAY"
       register: content
 
+    - name: Clear CTDNDAY
+      zos_operator:
+        cmd: "\\$pojq,jm=CTDNDAY"
+      register: content
+
+    - name: Clear D21NDAY
+      zos_operator:
+        cmd: "\\$pojq,jm=D21NDAY"
+      register: content
+
     - name: Clear C21TDAY
       zos_operator:
         cmd: "\\$pojq,jm=C21TDAY"
