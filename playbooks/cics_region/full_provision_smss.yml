@@ -20,7 +20,7 @@
       le_data_sets:
         template: "CEE.<< lib_name >>"
       cpsm_data_sets:
-        template: DFH620.CPSM610.<< lib_name >>
+        template: DFH620.CPSM.<< lib_name >>
 
   tasks:
     - name: Create the auxiliary temporary storage data set (DFHTEMP)
