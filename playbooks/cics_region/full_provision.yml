@@ -1,0 +1,83 @@
+---
+- name: Provision CICS Data sets and start the region
+  hosts: all
+  gather_facts: false
+  vars_files: "{{ playbook_dir }}/host_vars/variables.yml"
+  environment: "{{ environment_vars }}"
+
+  vars:
+    applid: APPLID
+
+  module_defaults:
+    group/ibm.ibm_zos_cics.region:
+      state: initial
+      cics_data_sets:
+        template: "CTS610.CICS740.<< lib_name >>"
+        sdfhlic: "CTS610.CICS740.LIC.SDFHLIC"
+      region_data_sets:
+        template: "{{ ansible_user }}.REGIONS.{{ applid }}.<< data_set_name >>"
+      le_data_sets:
+        template: "CEE.<< lib_name >>"
+
+  tasks:
+    - name: Create the auxiliary temporary storage data set (DFHTEMP)
+      ibm.ibm_zos_cics.aux_temp_storage:
+
+    - name: Create the auxiliary trace data set (DFHAUXT)
+      ibm.ibm_zos_cics.aux_trace:
+
+    - name: Create the second auxiliary trace data set (DFHBUXT)
+      ibm.ibm_zos_cics.aux_trace:
+        destination: B
+
+    - name: Create the transaction dump data set (DFHDMPA)
+      ibm.ibm_zos_cics.transaction_dump:
+
+    - name: Create the second transaction dump data set (DFHDMPB)
+      ibm.ibm_zos_cics.transaction_dump:
+        destination: B
+
+    - name: Create the CSD data set (DFHCSD)
+      ibm.ibm_zos_cics.csd:
+
+    - name: Update the CSD data set with the CSDUP script
+      ibm.ibm_zos_cics.csd:
+        state: changed
+        input_location: INLINE
+        input_content: ADD GROUP(DFHTERMC) LIST(DFHLIST1)
+
+    - name: Create the transient data intrapartition data set (DFHINTRA)
+      ibm.ibm_zos_cics.td_intrapartition:
+
+    - name: Create the local request queue data set (DFHLRQ)
+      ibm.ibm_zos_cics.local_request_queue:
+
+    - name: Create the global catalog data set (DFHGCD)
+      ibm.ibm_zos_cics.global_catalog:
+
+    - name: Create the local catalog data set (DFHLCD)
+      ibm.ibm_zos_cics.local_catalog:
+
+    - name: Create CICS startup JCL data set (DFHSTART)
+      ibm.ibm_zos_cics.region_jcl:
+        applid: "{{ applid }}"
+        job_parameters:
+          region: 0M
+        sit_parameters:
+          start: INITIAL
+          sit: 6$
+          aicons: AUTO
+          cicssvc: 217
+          edsalim: 500M
+          grplist: (DFHLIST*)
+          gmtext: Region provisioned with Ansible
+          srbsvc: 218
+          tcpip: "NO"
+          usshome: /cics/cics740
+          sysidnt: ZPY1
+      register: result
+
+    - name: Submit region JCL
+      ansible.builtin.command:
+        cmd: jsub "{{ ansible_user }}.REGIONS.{{ applid }}.DFHSTART"
+      changed_when: true
