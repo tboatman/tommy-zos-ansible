@@ -83,7 +83,7 @@
           start: INITIAL
           sit: 6$
           aicons: AUTO
-          cicssvc: 217
+          cicssvc: 216
           csdrecov: "NONE"
           edsalim: 500M
           grplist: (DFHLIST*)
