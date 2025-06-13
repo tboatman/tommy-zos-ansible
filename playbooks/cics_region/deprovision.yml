@@ -6,14 +6,14 @@
   environment: "{{ environment_vars }}"
 
   vars:
-    applid: APPLID
+    applid: TBCICS
 
   module_defaults:
     group/ibm.ibm_zos_cics.region:
       state: absent
       cics_data_sets:
-        template: "CTS610.CICS740.<< lib_name >>"
-        sdfhlic: "CTS610.CICS740.LIC.SDFHLIC"
+        template: "DFH620.CICS.<< lib_name >>"
+        sdfhlic: "DFH620.SDFHLIC"
       region_data_sets:
         template: "{{ ansible_user }}.REGIONS.{{ applid }}.<< data_set_name >>"
       le_data_sets:
