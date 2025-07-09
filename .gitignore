@@ -5,3 +5,4 @@ playbooks/ctm_license/roles/requirements-check/library/__pycache__/ansible_versi
 .DS_Store
 playbooks/ctm_license/.DS_Store
 playbooks/submit_tb/.DS_Store
+zapp.yaml
