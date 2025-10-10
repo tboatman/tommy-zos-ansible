@@ -4,9 +4,7 @@
   collections:
     - ibm.ibm_zos_core
   gather_facts: False
-  
-  environment: "{{ env_vars }}"
-
+ 
   tasks:
     - name: Clear SMFDUMPS
       zos_operator:
