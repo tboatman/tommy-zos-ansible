@@ -1,0 +1,124 @@
+###############################################################################
+# © Copyright IBM Corporation 2020, 2021, 2023
+###############################################################################
+
+###############################################################################
+# This sample playbook demonstrates how to terse a data set and fetch the tersed
+# data set back to the control node.
+#
+# Usage:
+#  ansible-playbook -i <inventory> <playbook>
+#
+# Example:
+#  ansible-playbook -i inventory.yml terse_fetch_data_set.yml
+#
+# Notes:
+#  This sample demonstrates ways to create a temporary data set, terse the
+#  temporary data set and fetch the tersed data set back to the local machine.
+#
+#  When running this playbook, review the comments on how the sample will
+#  interact with your target, ensure you have the required authority and
+#  permissions such as writing the the target directories or creating data sets.
+#
+# Requirements:
+#     - IBM z/OS core collection 1.2.0 or later
+###############################################################################
+
+---
+- hosts: zos_host
+  collections:
+    - ibm.ibm_zos_core
+  gather_facts: false
+  environment: "{{ environment_vars }}"
+
+
+  tasks:
+    # ##########################################################################
+    # Modules: zos_lineinfile, zos_archive, zos_fetch, zos_data_set
+    # ##########################################################################
+    # +-------------------------------------------------------------------------
+    # | - Using zos_data_set, create a temporary data set.
+    # | - Using zos_lineinfile to insert a line into the temporary data set
+    # | - Using zos_archive terse the temporary data set
+    # | - Using zos_fetch, fetch both the tersed archive and the data set
+    # | - Tear down by cleaning up files.
+    # +-------------------------------------------------------------------------
+    # ##########################################################################
+    # Generate a temporary data set name
+    # ##########################################################################
+    - block:
+        - name: Create a temporary data set
+          zos_data_set:
+            type: seq
+            space_primary: 5
+            space_secondary: 1
+            space_type: cyl
+            record_length: 1024
+          register: tmp_ds
+          failed_when: tmp_ds is not defined or tmp_ds.get('names', [])|length == 0
+
+    - name: Get the result of temp data set creation
+      debug:
+        var: tmp_ds
+
+    - set_fact:
+        tmp_data_set: "{{ tmp_ds.get('names')[0] }}"
+
+    - name: Insert text into the data set
+      zos_lineinfile:
+        src: "{{ tmp_data_set }}"
+        insertbefore: BOF
+        line: this is a test line to avoid errors trying to archive an empty data set
+
+    - name: Create an archive with terse
+      zos_archive:
+        src: "{{ tmp_data_set }}"
+        dest: "{{ archive_data_set }}"
+        format:
+          name: terse
+      register: terse_response
+
+    - name: Get the result of temp data set creation
+      debug:
+        var: temp_data_set
+
+    - name: Get the output of terse execution
+      debug:
+        var: terse_response
+
+    - name: "Fetch the tersed data set {{ archive_data_set }} to the local machine"
+      zos_fetch:
+        src: "{{ archive_data_set }}"
+        dest: "{{ playbook_dir }}/"
+        flat: true
+        is_binary: true
+      register: result
+
+    - name: Result of fetching tersed PDS to the local machine
+      debug:
+        var: result
+
+    - name: "Remove the temporary data set {{ archive_data_set }}"
+      zos_data_set:
+        name: "{{ archive_data_set }}"
+        state: absent
+      when: temp_data_set is defined and temp_data_set.names|length > 0
+
+    - name: "Fetch {{ tmp_data_set }} to local machine"
+      zos_fetch:
+        src: "{{ tmp_data_set }}"
+        dest: "{{ playbook_dir }}/"
+        flat: true
+        encoding:
+          from: IBM-1047
+          to: ISO8859-1
+      register: result
+
+    - name: "Result of fetching {{ tmp_data_set }} to local machine"
+      debug:
+        var: result
+
+    - name: "Delete data set {{ tmp_data_set }}"
+      zos_data_set:
+        name: "{{ tmp_data_set }}"
+        state: absent
