@@ -1,7 +1,7 @@
 ---
 - name: Collect the hosts
   hosts: all
-  environment: {{env_vars}}
+    environment: "{{env_vars}}"
   collections:
     - ibm.ibm_zos_core
   gather_facts: False
