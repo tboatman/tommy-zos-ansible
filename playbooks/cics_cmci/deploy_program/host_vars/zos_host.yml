@@ -50,6 +50,7 @@ load_lib: CICS.LLIB
 cmci_user:
 
 # CMCI password (leave blank for unauthenticated)
+# SECURITY: Use Ansible Vault instead of plaintext: ansible-vault encrypt_string --stdin-name 'cmci_password'
 cmci_password:
 
 # you should not need to change environment_vars

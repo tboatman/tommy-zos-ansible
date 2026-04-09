@@ -78,6 +78,7 @@ uss_utilities_path: /u/{{ TARGET_USERNAME }}
 uss_file_path: /u/{{ TARGET_USERNAME }}
 
 # The API key to use for artifactory repositories
+# SECURITY: Use Ansible Vault instead of plaintext: ansible-vault encrypt_string --stdin-name 'api_key'
 api_key: ''
 
 # The user ID to use for IMS related provisioning steps

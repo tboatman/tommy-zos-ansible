@@ -86,7 +86,7 @@ generate_passphrase: true
 ##################################################################################################################
 # Specifies if a password and/or passphrase should be printed to the console upon completion of the playbook.
 ##################################################################################################################
-print_pass: true
+print_pass: false
 
 ##################################################################################################################
 # Specifies the SMTP server to use for sending email, if sending email is desired.

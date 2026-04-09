@@ -234,6 +234,9 @@ class UnixFileSystem(object):
     # change file permissions for file in z/OS USS file system, accepts an octal value in the form 0o777
     @staticmethod
     def change_file_permissions(file_path, new_permissions):
+        # Validate permissions are within valid octal range (0o000 to 0o7777)
+        if not isinstance(new_permissions, int) or new_permissions < 0 or new_permissions > 0o7777:
+            raise ValueError("Invalid permissions value. Must be octal between 0o000 and 0o7777")
         os.chmod(file_path, new_permissions)
         return file_path
 
