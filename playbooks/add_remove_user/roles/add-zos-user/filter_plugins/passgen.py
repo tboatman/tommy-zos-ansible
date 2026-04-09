@@ -6,7 +6,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from string import ascii_lowercase, ascii_uppercase, digits
-from random import choice
+from secrets import choice
 from re import match, MULTILINE
 
 def generate_password(input, pass_len=8):
@@ -15,11 +15,8 @@ def generate_password(input, pass_len=8):
     Returns:
         str: The generated password.
     """
-    choices = [
-        ascii_uppercase,
-        digits,
-    ]
-    password = "".join([choice(choice(choices)) for x in range(pass_len)])
+    choices = ascii_uppercase + digits
+    password = "".join([choice(choices) for x in range(pass_len)])
     return password
 
 
@@ -29,15 +26,11 @@ def generate_passphrase(input, pass_len=16, userid=None):
     Returns:
         str: The generated passphrase.
     """
-    choices = [
-        ascii_uppercase,
-        digits,
-        ascii_lowercase
-    ]
+    choice_pool = ascii_uppercase + digits + ascii_lowercase
     passphrase = ""
     good_passphrase_found = False
     while not good_passphrase_found:
-        passphrase = "".join([choice(choice(choices)) for x in range(pass_len)])
+        passphrase = "".join([choice(choice_pool) for x in range(pass_len)])
         if match(r"^(([a-z0-9])\2?(?!\2))+$", passphrase, MULTILINE):
             good_passphrase_found = True
             if userid and userid in passphrase:
