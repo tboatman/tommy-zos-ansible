@@ -1,7 +1,8 @@
 .vscode/settings.json
 .DS_Store
 **/__pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 playbooks/**/current-run.txt
 playbooks/**/jcl-run.txt
 playbooks/**/inventories/host_vars/*.local.yml
