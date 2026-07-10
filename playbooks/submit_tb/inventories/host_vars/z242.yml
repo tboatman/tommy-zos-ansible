@@ -1,8 +1,0 @@
-PYZ: "/usr/lpp/IBM/cyp/v3r9/pyz"
-ZOAU: "/usr/lpp/IBM/zoautil"
-ansible_user: tommy
-ansible_host: z242
-ansible_ssh_timeout: 60
-ansible_python_interpreter: "{{ PYZ }}/bin/python3"
-environment: "{{ environment_vars }}"
-IOAPREF: "IOA921"

@@ -1,8 +1,0 @@
-      PYZ: "/usr/lpp/IBM/cyp/v3r9/pyz"
-      ZOAU: "/usr/lpp/IBM/zoautil"
-      IOAPREF: "IOA920"
-
-      ansible_host: 52.52.246.4
-      ansible_user: tommy
-      ansible_python_interpreter: "{{ PYZ }}/bin/python3"
-      environment: "{{ environment_vars }}"
