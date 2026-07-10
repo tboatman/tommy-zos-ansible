@@ -1,4 +1,13 @@
 .vscode/settings.json
+.DS_Store
+**/__pycache__/
+*.py[cod]
+*$py.class
+playbooks/**/current-run.txt
+playbooks/**/jcl-run.txt
+playbooks/**/inventories/host_vars/*.local.yml
+playbooks/**/inventories/group_vars/*.local.yml
+*.vault.yml
 playbooks/submit_tb/roles/requirements-check/library/__pycache__/ansible_version.cpython-311.pyc
 playbooks/.DS_Store
 playbooks/ctm_license/roles/requirements-check/library/__pycache__/ansible_version.cpython-312.pyc
