@@ -42,9 +42,9 @@
     - name: ICON start
       zos_job_submit:
         src: IMSTESTL.IMS1.JOBS(IMS1HWS1)
-        location: DATA_SET
+        remote_src: true
         wait: true
-        wait_time_s: 30
+        wait_time: 30
       ignore_errors: true #ICON successfully starts, but the job itself exceeds the wait time
       when: icon == "start"
 

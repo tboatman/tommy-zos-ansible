@@ -1,7 +1,7 @@
 collections:
   # Install a collection from Ansible Galaxy.
   - name: ibm.ibm_zos_core
-    version: "1.13.1"
+    version: "2.0.0"
     source: https://galaxy.ansible.com
   - name: ibm.ibm_zos_cics
     version: "2.2.0"

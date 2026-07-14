@@ -161,7 +161,7 @@
         encoding:
           from: ISO8859-1
           to: "{{ target_charset }}"
-        force: true  
+        replace: true
       register: result
 
     - name: Response for copying

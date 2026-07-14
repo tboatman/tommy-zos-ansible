@@ -32,10 +32,10 @@
       - name: Submit image copy job
         ibm.ibm_zos_core.zos_job_submit:
           src: '{{ eager_role_path }}/templates/image_copy.j2'
-          location: local
+          remote_src: false
           use_template: true
           # wait: true
-          wait_time_s: 30
+          wait_time: 30
       when: image == "copy"
 
     - block:

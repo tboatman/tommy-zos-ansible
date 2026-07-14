@@ -102,7 +102,7 @@
       ibm.ibm_zos_core.zos_copy:
         src: "{{ playbook_dir }}/files/HELLO.jcl"
         dest: "{{ tgt_tmp_dir }}/ansible/jcl/HELLO"
-        force: true
+        replace: true
       register: result
 
     - name: Response for write HELLO JCL to USS
@@ -117,7 +117,7 @@
         src: "{{ tgt_tmp_dir }}/ansible/jcl/HELLO"
         remote_src: true
         dest: "{{ data_set_name }}(MEM1)"
-        force: true
+        replace: true
       register: result
 
     - name: Response for populate {{ data_set_name }}
@@ -128,8 +128,8 @@
     - name: Submit the JCL {{ data_set_name }}
       ibm.ibm_zos_core.zos_job_submit:
         src: "{{ data_set_name }}(MEM1)"
-        location: DATA_SET
-        wait_time_s: 30
+        remote_src: true
+        wait_time: 30
       register: result
 
     - name: Response for submit the JCL {{ data_set_name }}

@@ -8,8 +8,8 @@
     - name: Terminate INCONTROL
       ibm.ibm_zos_core.zos_job_submit:
         src: TOMMY.JCL.CNTL(CTMKILL)
-        location: data_set
-        wait_time_s: 120
+        remote_src: true
+        wait_time: 120
         return_output: false
       register: response
 
@@ -107,7 +107,7 @@
     - name: Restart IOA
       ibm.ibm_zos_core.zos_job_submit:
         src: TOMMY.JCL.CNTL(CTMGO)
-        location: data_set
-        wait_time_s: 120
+        remote_src: true
+        wait_time: 120
         return_output: false
       register: response

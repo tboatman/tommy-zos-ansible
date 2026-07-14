@@ -44,9 +44,9 @@
             src: "{{ playbook_dir }}/{{ archive_data_set }}"
             force: "{{ replace }}"
             format:
-              name: terse
-              format_options:
-                use_adrdssu: True
+              type: terse
+              options:
+                adrdssu: True
           register: unarchive_result
 
         - debug:

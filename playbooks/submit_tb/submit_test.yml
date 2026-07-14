@@ -13,11 +13,11 @@
     - name: Submit the JCL
       zos_job_submit:
         src: "{{ playbook_dir }}/files/SMFPURGE.jcl"
-        location: local
+        remote_src: false
         encoding:
           from: UTF-8
           to: IBM-1047
-        wait_time_s: 30
+        wait_time: 30
       register: result
 
     - name: Response for submit the JCL 
