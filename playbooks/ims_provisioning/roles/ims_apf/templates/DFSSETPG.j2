@@ -13,14 +13,31 @@
 //*                                                                     *
 //**************************************************************@ECPYRT**
 //* FUNCTION: Authorize IMS Data sets
+//*
+//* NOTE: SETPROG is an MVS operator command, not a JCL statement.
+//* It is issued here via the JES2 COMMAND JCL statement, which
+//* requires the submitting job/user to have OPERCMDS authority for
+//* the SETPROG.APF command class, and JES2 to permit COMMAND
+//* statements. The static "...DSNAME=" prefix is padded so it lands
+//* on column 71 for every ADD statement below, and the dataset name
+//* resumes on column 16 of the continuation line -- this is safe
+//* without dynamic line-wrapping because z/OS caps a dataset
+//* qualifier at 8 characters and a VOLSER at 6, so the rendered
+//* continuation line can never exceed column 71.
 //***********************************************************************
 {% set volume = 'VOL=' + DFS_DS_VOLUME2 if not DFS_SMS_ENVIRONMENT else 'SMS' %}
+//         COMMAND 'SETPROG APF,FORMAT=DYNAMIC'
+//       COMMAND                               'SETPROG APF,ADD,DSNAME=X
+//             {{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.SDXRRESL,{{ volume }}'
+//       COMMAND                               'SETPROG APF,ADD,DSNAME=X
+//             {{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.SDFSRESL,{{ volume }}'
+//       COMMAND                               'SETPROG APF,ADD,DSNAME=X
+//             {{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.MODBLKS,{{ volume }}'
+//       COMMAND                               'SETPROG APF,ADD,DSNAME=X
+//             {{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.MODBLKSA,{{ volume }}'
+//       COMMAND                               'SETPROG APF,ADD,DSNAME=X
+//             {{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.MODBLKSB,{{ volume }}'
+//       COMMAND                               'SETPROG APF,ADD,DSNAME=X
+//             {{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.EXITLIB,{{ volume }}'
 //STEP01   EXEC PGM=IEFBR14
 //SYSPRINT DD SYSOUT=*
-// SETPROG APF,FORMAT=DYNAMIC
-// SETPROG APF,ADD,DSNAME={{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.SDXRRESL,{{ volume }}
-// SETPROG APF,ADD,DSNAME={{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.SDFSRESL,{{ volume }}
-// SETPROG APF,ADD,DSNAME={{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.MODBLKS,{{ volume }}
-// SETPROG APF,ADD,DSNAME={{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.MODBLKSA,{{ volume }}
-// SETPROG APF,ADD,DSNAME={{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.MODBLKSB,{{ volume }}
-// SETPROG APF,ADD,DSNAME={{ DFS_AUTH_LIB_HLQ1 }}.{{ DFS_AUTH_LIB_HLQ2 }}.EXITLIB,{{ volume }}
