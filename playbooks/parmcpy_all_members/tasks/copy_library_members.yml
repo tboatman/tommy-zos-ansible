@@ -1,0 +1,67 @@
+---
+- name: Locate source library {{ parm_copy_source.dataset }}
+  ibm.ibm_zos_core.zos_find:
+    patterns:
+      - "{{ parm_copy_source.dataset }}"
+  register: parm_copy_find
+
+- name: Require source library {{ parm_copy_source.dataset }}
+  ansible.builtin.assert:
+    that:
+      - parm_copy_find.data_sets | length == 1
+    fail_msg: >-
+      Source library {{ parm_copy_source.dataset }} was not found or could not
+      be listed on {{ inventory_hostname }}. Check the catalog, RACF access,
+      and the source dataset name before rerunning.
+
+- name: Create destination directory {{ parm_copy_source.destination }}
+  ansible.builtin.raw: >-
+    if test -d '{{ parm_copy_source.destination }}'; then
+      chmod 0770 '{{ parm_copy_source.destination }}';
+      echo DESTINATION_EXISTS;
+    else
+      mkdir -p '{{ parm_copy_source.destination }}' &&
+      chmod 0770 '{{ parm_copy_source.destination }}' &&
+      echo DESTINATION_CREATED;
+    fi
+  register: parm_copy_destination
+  changed_when: "'DESTINATION_CREATED' in parm_copy_destination.stdout"
+
+- name: Create a controller staging directory for {{ parm_copy_source.dataset }}
+  ansible.builtin.tempfile:
+    state: directory
+    prefix: parmcpy_
+  register: parm_copy_stage
+  delegate_to: localhost
+
+- name: Fetch every member of {{ parm_copy_source.dataset }} to the controller
+  ibm.ibm_zos_core.zos_fetch:
+    src: "{{ parm_copy_source.dataset }}({{ parm_copy_member }})"
+    dest: "{{ parm_copy_stage.path }}/"
+    flat: true
+    encoding:
+      from: "{{ target_charset }}"
+      to: "{{ fetch_charset }}"
+  loop: "{{ parm_copy_find.data_sets[0].members | default([]) | sort }}"
+  loop_control:
+    loop_var: parm_copy_member
+    label: "{{ parm_copy_source.dataset }}({{ parm_copy_member }})"
+
+- name: Copy every fetched member to USS
+  ibm.ibm_zos_core.zos_copy:
+    src: "{{ parm_copy_stage.path }}/{{ parm_copy_member }}"
+    dest: "{{ parm_copy_source.destination }}/{{ parm_copy_member }}"
+    encoding:
+      from: "{{ fetch_charset }}"
+      to: "{{ target_charset }}"
+    replace: true
+  loop: "{{ parm_copy_find.data_sets[0].members | default([]) | sort }}"
+  loop_control:
+    loop_var: parm_copy_member
+    label: "{{ parm_copy_source.destination }}/{{ parm_copy_member }}"
+
+- name: Remove controller staging directory for {{ parm_copy_source.dataset }}
+  ansible.builtin.file:
+    path: "{{ parm_copy_stage.path }}"
+    state: absent
+  delegate_to: localhost

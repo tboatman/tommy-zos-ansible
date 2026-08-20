@@ -1,0 +1,33 @@
+---
+all:
+  children:
+    zos_host:
+      hosts:
+        bes2:
+          ansible_host: bes2
+          ansible_user: bmctyb
+          ansible_connection: ssh
+          ansible_python_interpreter: "{{ PYZ }}/bin/python3"
+          PYZ: /shrd/cyp/pyz
+          PYZ_VERSION: "3.13"
+          ZOAU: /shrd/zoautil
+          ZOAU_PYTHON_LIBRARY_PATH: ""
+          environment_vars:
+            _BPXK_AUTOCVT: "ON"
+            ZOAU_HOME: "{{ ZOAU }}"
+            LIBPATH: "{{ ZOAU }}/lib:{{ ZOAU }}/lib/{{ PYZ_VERSION }}"
+            PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin"
+        bes1:
+          ansible_host: bes1
+          ansible_user: bmctyb
+          ansible_connection: ssh
+          ansible_python_interpreter: "{{ PYZ }}/bin/python3"
+          PYZ: /shrd/cyp/pyz
+          PYZ_VERSION: "3.13"
+          ZOAU: /shrd/zoautil
+          ZOAU_PYTHON_LIBRARY_PATH: ""
+          environment_vars:
+            _BPXK_AUTOCVT: "ON"
+            ZOAU_HOME: "{{ ZOAU }}"
+            LIBPATH: "{{ ZOAU }}/lib:{{ ZOAU }}/lib/{{ PYZ_VERSION }}"
+            PATH: "{{ ZOAU }}/bin:{{ PYZ }}/bin:/bin"

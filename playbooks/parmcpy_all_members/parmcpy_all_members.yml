@@ -1,0 +1,46 @@
+---
+- name: Copy every member from configured z/OS libraries to USS
+  hosts: bes2
+  collections:
+    - ibm.ibm_zos_core
+  gather_facts: false
+  environment: "{{ environment_vars | default({}) }}"
+
+  vars:
+    target_charset: IBM-1047
+    fetch_charset: UTF-8
+    parm_copy_sources:
+#      - dataset: SYS1.PARMLIB
+#        destination: /home/bmctyb/config/sys1/parmlib
+#      - dataset: EDUC.CPWR.PARMLIB
+#        destination: /home/bmctyb/config/educ/cpwr/parmlib
+#      - dataset: SYS1.BES.CLIST
+#        destination: /home/bmctyb/config/sys1/bes/clist
+#      - dataset: SYS1.BES2.PARMLIB
+#        destination: /home/bmctyb/config/sys1/bes2/parmlib
+#      - dataset: SYS1.IBM.PARMLIB
+#        destination: /home/bmctyb/config/sys1/ibm/parmlib
+#      - dataset: SYS2.BES.TCPPARMS
+#        destination: /home/bmctyb/config/sys2/bes/tcpparms
+#      - dataset: SYS2.BES.VTAMLST
+#        destination: /home/bmctyb/config/sys2/bes/vtamlst
+      - dataset: SYS2.BES2.PROCLIB
+        destination: /home/bmctyb/config/sys2/bes2/proclib
+      - dataset: SYS2.BESSHRD.PROCLIB
+        destination: /home/bmctyb/config/sys2/besshrd/proclib
+      - dataset: SYS3.BES.CLIST
+        destination: /home/bmctyb/config/sys3/bes/clist
+      - dataset: SYS3.BES.PROCLIB
+        destination: /home/bmctyb/config/sys3/bes/proclib
+      - dataset: SYS3.BES2.PARMLIB
+        destination: /home/bmctyb/config/sys3/bes2/parmlib
+      - dataset: SYSC.CPWR.PARMLIB
+        destination: /home/bmctyb/config/sysc/cpwr/parmlib
+
+  tasks:
+    - name: Copy all members from each source library
+      ansible.builtin.include_tasks: tasks/copy_library_members.yml
+      loop: "{{ parm_copy_sources }}"
+      loop_control:
+        loop_var: parm_copy_source
+        label: "{{ parm_copy_source.dataset }} -> {{ parm_copy_source.destination }}"

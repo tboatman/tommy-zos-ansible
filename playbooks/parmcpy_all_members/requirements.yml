@@ -1,0 +1,5 @@
+---
+collections:
+  - name: ibm.ibm_zos_core
+    version: ">=2.0.0"
+    source: https://galaxy.ansible.com

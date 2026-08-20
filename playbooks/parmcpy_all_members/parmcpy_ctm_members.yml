@@ -1,0 +1,44 @@
+---
+- name: Copy every member from configured CTM libraries to USS
+  hosts: bes1
+  collections:
+    - ibm.ibm_zos_core
+  gather_facts: false
+  environment: "{{ environment_vars | default({}) }}"
+
+  vars:
+    target_charset: IBM-1047
+    fetch_charset: UTF-8
+    parm_copy_sources:
+      - dataset: EDUC.IOA.V921.CTB.OPR.PARM
+        destination: /home/bmctyb/config/educ/ioa/v921/ctb/opr/parm
+      - dataset: EDUC.IOA.V921.CTV.OPR.PARM
+        destination: /home/bmctyb/config/educ/ioa/v921/ctv/opr/parm
+      - dataset: EDUC.IOA.V921.CTD.OPR.PARM
+        destination: /home/bmctyb/config/educ/ioa/v921/ctd/opr/parm
+      - dataset: EDUC.IOA.V921.CTJ.OPR.PARM
+        destination: /home/bmctyb/config/educ/ioa/v921/ctj/opr/parm
+      - dataset: EDUC.IOA.V921.CTM.OPR.PARM
+        destination: /home/bmctyb/config/educ/ioa/v921/ctm/opr/parm
+      - dataset: EDUC.IOA.V921.CTO.OPR.PARM
+        destination: /home/bmctyb/config/educ/ioa/v921/cto/opr/parm
+      - dataset: EDUC.IOA.V921.CTR.OPR.PARM
+        destination: /home/bmctyb/config/educ/ioa/v921/ctr/opr/parm
+      - dataset: EDUC.IOA.V921.PARM
+        destination: /home/bmctyb/config/educ/ioa/v921/parm
+      - dataset: CSG.BES.CNTLLIB
+        destination: /home/bmctyb/config/csg/bes/cntllib
+      - dataset: SYS0.IPLPARM
+        destination: /home/bmctyb/config/sys0/iplparm
+      - dataset: SYS2.BES1.PROCLIB
+        destination: /home/bmctyb/config/sys2/bes1/proclib
+      - dataset: SYS3.BES1.PARMLIB
+        destination: /home/bmctyb/config/sys3/bes1/parmlib
+
+  tasks:
+    - name: Copy all members from each source library
+      ansible.builtin.include_tasks: tasks/copy_library_members.yml
+      loop: "{{ parm_copy_sources }}"
+      loop_control:
+        loop_var: parm_copy_source
+        label: "{{ parm_copy_source.dataset }} -> {{ parm_copy_source.destination }}"
