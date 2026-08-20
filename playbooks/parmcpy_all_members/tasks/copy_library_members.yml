@@ -34,7 +34,7 @@
   register: parm_copy_stage
   delegate_to: localhost
 
-- name: Fetch every member of {{ parm_copy_source.dataset }} to the controller
+- name: Fetch every member to the controller from {{ parm_copy_source.dataset }}
   ibm.ibm_zos_core.zos_fetch:
     src: "{{ parm_copy_source.dataset }}({{ parm_copy_member }})"
     dest: "{{ parm_copy_stage.path }}/"

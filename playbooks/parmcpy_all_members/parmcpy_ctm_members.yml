@@ -1,8 +1,6 @@
 ---
 - name: Copy every member from configured CTM libraries to USS
   hosts: bes1
-  collections:
-    - ibm.ibm_zos_core
   gather_facts: false
   environment: "{{ environment_vars | default({}) }}"
 

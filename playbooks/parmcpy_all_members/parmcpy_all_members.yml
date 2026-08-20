@@ -1,8 +1,6 @@
 ---
 - name: Copy every member from configured z/OS libraries to USS
   hosts: bes2
-  collections:
-    - ibm.ibm_zos_core
   gather_facts: false
   environment: "{{ environment_vars | default({}) }}"
 
@@ -10,20 +8,20 @@
     target_charset: IBM-1047
     fetch_charset: UTF-8
     parm_copy_sources:
-#      - dataset: SYS1.PARMLIB
-#        destination: /home/bmctyb/config/sys1/parmlib
-#      - dataset: EDUC.CPWR.PARMLIB
-#        destination: /home/bmctyb/config/educ/cpwr/parmlib
-#      - dataset: SYS1.BES.CLIST
-#        destination: /home/bmctyb/config/sys1/bes/clist
-#      - dataset: SYS1.BES2.PARMLIB
-#        destination: /home/bmctyb/config/sys1/bes2/parmlib
-#      - dataset: SYS1.IBM.PARMLIB
-#        destination: /home/bmctyb/config/sys1/ibm/parmlib
-#      - dataset: SYS2.BES.TCPPARMS
-#        destination: /home/bmctyb/config/sys2/bes/tcpparms
-#      - dataset: SYS2.BES.VTAMLST
-#        destination: /home/bmctyb/config/sys2/bes/vtamlst
+      - dataset: SYS1.PARMLIB
+        destination: /home/bmctyb/config/sys1/parmlib
+      - dataset: EDUC.CPWR.PARMLIB
+        destination: /home/bmctyb/config/educ/cpwr/parmlib
+      - dataset: SYS1.BES.CLIST
+        destination: /home/bmctyb/config/sys1/bes/clist
+      - dataset: SYS1.BES2.PARMLIB
+        destination: /home/bmctyb/config/sys1/bes2/parmlib
+      - dataset: SYS1.IBM.PARMLIB
+        destination: /home/bmctyb/config/sys1/ibm/parmlib
+      - dataset: SYS2.BES.TCPPARMS
+        destination: /home/bmctyb/config/sys2/bes/tcpparms
+      - dataset: SYS2.BES.VTAMLST
+        destination: /home/bmctyb/config/sys2/bes/vtamlst
       - dataset: SYS2.BES2.PROCLIB
         destination: /home/bmctyb/config/sys2/bes2/proclib
       - dataset: SYS2.BESSHRD.PROCLIB
